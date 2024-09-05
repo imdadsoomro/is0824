@@ -1,11 +1,14 @@
-package org.demo.model;
+package org.demo.service;
+import org.demo.model.RentalAgreement;
+import org.demo.model.Tool;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ToolRentalApplication {
+public class ToolRentalService {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yy");
     private static final Map<String, Tool> tools = new HashMap<>();
 

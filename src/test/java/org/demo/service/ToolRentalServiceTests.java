@@ -1,15 +1,14 @@
 package org.demo.service;
 
 import org.demo.model.RentalAgreement;
-import org.demo.model.ToolRentalApplication;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ToolRentalApplicationTests {
+public class ToolRentalServiceTests {
 
     @Test
     void testCheckoutWithInvalidRentalDays() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             app.checkout("JAKR", 0, 10, "09/03/15");
         });
@@ -18,7 +17,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testCheckoutWithInvalidDiscountPercent() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             app.checkout("LADW", 3, 101, "07/02/20");
         });
@@ -27,7 +26,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testCheckoutWithValidParameters() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("LADW", 3, 10, "07/02/20");
 
         assertEquals("LADW", agreement.getTool().getToolCode());
@@ -46,7 +45,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testLaborDayCharge() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("JAKR", 6, 0, "09/03/15");
 
         assertEquals("09/09/15", agreement.getDueDate());
@@ -58,7 +57,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testIndependenceDayOnWeekday() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("CHNS", 5, 20, "07/02/19");
 
         assertEquals("07/07/19", agreement.getDueDate());
@@ -71,7 +70,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testMaxDiscountPercent() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("JAKD", 4, 100, "08/01/22");
 
         assertEquals("08/05/22", agreement.getDueDate());
@@ -84,7 +83,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testInvalidToolCode() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             app.checkout("INVALID", 3, 10, "07/02/20");
         });
@@ -93,7 +92,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testLaborDayWeekend() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("LADW", 4, 0, "09/04/21");
 
         assertEquals("09/08/21", agreement.getDueDate());
@@ -105,7 +104,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testIndependenceDayObservedOnFriday() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("CHNS", 5, 0, "07/01/22");
 
         assertEquals("07/06/22", agreement.getDueDate());
@@ -119,7 +118,7 @@ public class ToolRentalApplicationTests {
 
     @Test
     void testChainsawWithNoWeekendCharges() {
-        ToolRentalApplication app = new ToolRentalApplication();
+        ToolRentalService app = new ToolRentalService();
         RentalAgreement agreement = app.checkout("CHNS", 7, 50, "06/10/22");
 
         assertEquals("06/17/22", agreement.getDueDate());
