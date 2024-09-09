@@ -7,6 +7,39 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ToolRentalServiceTests {
 
     @Test
+    void testInvalidDiscount() {
+        ToolRentalService service = new ToolRentalService();
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            service.checkout("JAKR", 5, 101, "09/03/15");
+        });
+        // Validate exception message
+        assertEquals("Discount percent must be between 0 and 100.", exception.getMessage());
+    }
+
+    @Test
+    public void testLADWRentalJuly2020() {
+        ToolRentalService service = new ToolRentalService();
+        String toolCode = "LADW"; // Ladder
+        int rentalDays = 3;
+        int discountPercent = 10;
+        String checkoutDate = "07/02/20";
+
+        // When
+        RentalAgreement rentalAgreement = service.checkout(toolCode, rentalDays, discountPercent, checkoutDate);
+
+        // Then
+        assertEquals(1, rentalAgreement.getChargeDays(), "Charge days should be 1");
+
+        // Optional: Verify other values if needed
+        assertEquals(1.99, rentalAgreement.getDailyCharge(), "Daily charge should be 1.99");
+        assertEquals(1, rentalAgreement.getChargeDays(), "Charge days should be 1");
+        assertEquals(1.99, rentalAgreement.getPreDiscountCharge(), "Pre-discount charge should be 1.99");
+        assertEquals(discountPercent, rentalAgreement.getDiscountPercent(), "Discount percent should be 10");
+        assertEquals(0.00, rentalAgreement.getDiscountAmount(), "Discount amount should be 0.00");
+        assertEquals(1.99, rentalAgreement.getFinalCharge(), "Final charge should be 1.99");
+    }
+
+    @Test
     void testCheckoutWithInvalidRentalDays() {
         ToolRentalService app = new ToolRentalService();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
