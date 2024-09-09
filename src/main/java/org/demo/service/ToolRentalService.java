@@ -41,7 +41,7 @@ public class ToolRentalService {
         double finalCharge = preDiscountCharge - discountAmount;
         String formattedFinalCharge = String.format("%.2f", finalCharge);
         String formattedDiscountAmount = String.format("%.2f", discountAmount);
-        return new RentalAgreement(
+        RentalAgreement rentalAgreement = new RentalAgreement(
                 tool,
                 rentalDays,
                 checkoutLocalDate.format(DATE_FORMAT),
@@ -53,6 +53,10 @@ public class ToolRentalService {
                 Double.parseDouble(formattedDiscountAmount),
                 Double.parseDouble(formattedFinalCharge)
         );
+        System.out.println("======================================");
+        rentalAgreement.printAgreement();
+        System.out.println("======================================");
+        return rentalAgreement;
     }
 
     private int calculateChargeDays(Tool tool, LocalDate checkoutDate, LocalDate dueDate) {
