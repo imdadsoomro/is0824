@@ -80,28 +80,22 @@ public class ToolRentalService {
     }
 
     private boolean isHoliday(LocalDate date) {
-        // Check for Independence Day (July 4th)
         if (date.getMonthValue() == 7) {
             if (date.getDayOfMonth() == 4) {
-                return true; // Independence Day
+                return true;
             }
-            // If July 4th falls on a Saturday, the holiday is observed on Friday, July 3rd.
-            // If July 4th falls on a Sunday, the holiday is observed on Monday, July 5th.
             if ((date.getDayOfMonth() == 3 && date.getDayOfWeek().getValue() == 5) ||
                     (date.getDayOfMonth() == 5 && date.getDayOfWeek().getValue() == 1)) {
-                return true; // Observed Independence Day
+                return true;
             }
         }
 
-        // Check for Labor Day (First Monday in September)
         if (date.getMonthValue() == 9 && date.getDayOfWeek() == DayOfWeek.MONDAY) {
-            // Labor Day is the first Monday of September
             if (date.getDayOfMonth() <= 7) {
-                return true; // Labor Day
+                return true;
             }
         }
 
         return false;
     }
 }
-
